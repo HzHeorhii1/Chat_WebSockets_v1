@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat on WebSocket</title>
+</head>
+<body>
+<h1>Online chat with WebSockets</h1>
+<form id="messageForm">
+    <label>Name:</label>
+    <input type="text" name="name" id="name" />
+    <label>Message:</label>
+    <input type="text" name="message" id="message" />
+    <input type="submit" value="send" />
+
+
+</form>
+
+<div id="chat"></div>
+<script type="module">
+    const chatEl = document.getElementById("chat");
+    const ws = new WebSocket("ws://127.0.0.1:3060");
+    ws.onmessage = (message) => {
+        const messages = JSON.parse(message.data)
+        messages.forEach((element) => {
+            const messageElement = document.createElement('div');
+            messageElement.appendChild(document.createTextNode(`${element.name}: ${element.message}`));
+            chat.appendChild(messageElement);
+        })
+
+
+    }
+    const send = (event) => {
+        event.preventDefault();
+        const name = document.getElementById("name").value;
+        const message = document.getElementById("message").value;
+        ws.send(JSON.stringify({
+            name, message
+        }))
+        return false;
+    }
+    const formElement = document.getElementById("messageForm");
+    formElement.addEventListener('submit', send);
+
+</script>
+</body>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f8f8;
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    #messageForm {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        margin: 20px auto;
+    }
+
+    #messageForm label {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    #messageForm input[type="text"] {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    #chat {
+        width: 60%;
+        height: 300px;
+        margin: 0 auto;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        overflow-y: scroll;
+    }
+
+    input[type="submit"] {
+        display: block;
+        width: 150px;
+        margin: 20px auto;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #4CAF50;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #3e8e41;
+    }
+
+</style>
+</html>

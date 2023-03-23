@@ -1,0 +1,22 @@
+{
+  "name": "chat_ws",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22",
+    "path": "^0.12.7",
+    "uuid": "^9.0.0",
+    "ws": "^8.13.0"
+  }
+}
